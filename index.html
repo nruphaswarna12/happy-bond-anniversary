@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Bond Anniversary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   EDIT ME — everything you're likely to want to change lives
+   in the CONTENT section of the <script> at the bottom, or
+   right here for colors. Search for "EDIT:" to find each spot.
+   ============================================================ */
+
+:root{
+  --cream:#FFF7EF;
+  --blush:#FFC9DA;
+  --blush-deep:#FF9DBB;
+  --lavender:#D9CBFF;
+  --mint:#B7EFDD;
+  --butter:#FFE59E;
+  --plum:#4A3752;
+  --plum-soft:#7A6280;
+  --white:#FFFFFF;
+  --shadow: 0 12px 30px rgba(74,55,82,0.12);
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255,201,218,0.5), transparent 40%),
+    radial-gradient(circle at 85% 15%, rgba(217,203,255,0.45), transparent 40%),
+    radial-gradient(circle at 50% 90%, rgba(183,239,221,0.4), transparent 45%),
+    var(--cream);
+  font-family:'Quicksand', sans-serif;
+  color:var(--plum);
+  overflow-x:hidden;
+  position:relative;
+}
+
+h1,h2,h3,.display{
+  font-family:'Fredoka', sans-serif;
+  font-weight:600;
+  color:var(--plum);
+}
+
+.script{
+  font-family:'Caveat', cursive;
+}
+
+button{font-family:inherit;}
+
+button:focus-visible, .card:focus-visible, .seal:focus-visible{
+  outline:3px solid var(--plum);
+  outline-offset:3px;
+}
+
+/* -------------------- floating background bits -------------------- */
+.floaty{
+  position:fixed;
+  font-size:1.6rem;
+  opacity:0.35;
+  pointer-events:none;
+  animation:drift 14s ease-in-out infinite;
+  z-index:0;
+}
+@keyframes drift{
+  0%,100%{transform:translateY(0) rotate(0deg);}
+  50%{transform:translateY(-22px) rotate(8deg);}
+}
+@media (prefers-reduced-motion: reduce){
+  .floaty{animation:none;}
+}
+
+/* ==================== LANDING / ENVELOPE ==================== */
+#landing{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  position:relative;
+  z-index:1;
+  text-align:center;
+}
+
+.envelope-wrap{
+  perspective:1200px;
+  margin-bottom:28px;
+}
+
+.envelope{
+  width:min(320px, 78vw);
+  height:200px;
+  position:relative;
+  cursor:pointer;
+  filter:drop-shadow(var(--shadow));
+}
+
+.env-body{
+  position:absolute;
+  inset:0;
+  background:var(--white);
+  border-radius:14px;
+  border:2px solid var(--blush-deep);
+  overflow:hidden;
+}
+
+.env-body::before, .env-body::after{
+  content:"";
+  position:absolute;
+  top:0;
+  width:50%;
+  height:100%;
+  background:var(--blush);
+  opacity:0.55;
+}
+.env-body::before{left:0; clip-path:polygon(0 0, 100% 0, 0 100%);}
+.env-body::after{right:0; clip-path:polygon(0 0, 100% 0, 100% 100%);}
+
+.env-flap{
+  position:absolute;
+  top:0; left:0; right:0;
+  height:110px;
+  background:var(--blush-deep);
+  clip-path:polygon(0 0, 100% 0, 50% 100%);
+  transform-origin:top center;
+  transition:transform 0.9s cubic-bezier(.4,1.4,.6,1);
+  z-index:3;
+}
+.envelope.open .env-flap{transform:rotateX(180deg);}
+
+.seal{
+  position:absolute;
+  top:78px; left:50%;
+  transform:translate(-50%,0);
+  width:56px; height:56px;
+  border-radius:50%;
+  background:linear-gradient(145deg, var(--blush-deep), #E8547D);
+  border:none;
+  color:white;
+  font-size:1.4rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:4;
+  cursor:pointer;
+  box-shadow:0 6px 14px rgba(232,84,125,0.4);
+  transition:transform 0.25s ease, opacity 0.5s ease;
+  animation:pulse 2s ease-in-out infinite;
+}
+.envelope.open .seal{opacity:0; pointer-events:none; transform:translate(-50%,0) scale(0.6);}
+@keyframes pulse{
+  0%,100%{transform:translate(-50%,0) scale(1);}
+  50%{transform:translate(-50%,0) scale(1.08);}
+}
+@media (prefers-reduced-motion: reduce){ .seal{animation:none;} }
+
+.env-note{
+  position:absolute;
+  left:10%; right:10%; bottom:14px;
+  top:60%;
+  background:var(--white);
+  border-radius:10px 10px 4px 4px;
+  box-shadow:0 -4px 10px rgba(0,0,0,0.05);
+  transform:translateY(0);
+  transition:transform 0.7s ease 0.35s;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px;
+  z-index:2;
+  font-family:'Caveat', cursive;
+  font-size:1.15rem;
+  color:var(--plum-soft);
+  text-align:center;
+}
+.envelope.open .env-note{transform:translateY(-92%);}
+
+.landing-hint{
+  color:var(--plum-soft);
+  font-size:0.95rem;
+  margin-top:4px;
+}
+
+#enterBtn{
+  margin-top:30px;
+  border:none;
+  background:var(--plum);
+  color:var(--cream);
+  padding:14px 34px;
+  border-radius:999px;
+  font-size:1.05rem;
+  font-family:'Fredoka', sans-serif;
+  cursor:pointer;
+  box-shadow:var(--shadow);
+  opacity:0;
+  transform:translateY(10px);
+  pointer-events:none;
+  transition:opacity 0.5s ease, transform 0.5s ease, background 0.2s ease;
+}
+#enterBtn.show{opacity:1; transform:translateY(0); pointer-events:auto;}
+#enterBtn:hover{background:#3a2b42;}
+
+/* ==================== MAIN SCENE ==================== */
+#mainScene{
+  display:none;
+  min-height:100vh;
+  padding:60px 20px 100px;
+  position:relative;
+  z-index:1;
+}
+#mainScene.show{display:block;}
+
+.main-header{
+  text-align:center;
+  max-width:640px;
+  margin:0 auto 46px;
+}
+.main-header h1{
+  font-size:clamp(1.8rem, 5vw, 2.6rem);
+  margin-bottom:8px;
+}
+.main-header p{
+  color:var(--plum-soft);
+  font-size:1.05rem;
+}
+
+.progress{
+  display:flex;
+  gap:8px;
+  justify-content:center;
+  margin-top:18px;
+}
+.progress .dot{
+  width:10px;height:10px;border-radius:50%;
+  background:var(--blush);
+  transition:background 0.3s ease, transform 0.3s ease;
+}
+.progress .dot.done{background:var(--blush-deep); transform:scale(1.2);}
+
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+  gap:22px;
+  max-width:920px;
+  margin:0 auto;
+}
+
+.card{
+  background:var(--white);
+  border-radius:20px;
+  padding:26px 20px;
+  text-align:center;
+  cursor:pointer;
+  border:2px solid transparent;
+  box-shadow:var(--shadow);
+  transition:transform 0.25s ease, border-color 0.25s ease;
+  position:relative;
+}
+.card:hover, .card:focus-visible{
+  transform:translateY(-6px);
+  border-color:var(--blush-deep);
+}
+.card .emoji{font-size:2.4rem; display:block; margin-bottom:10px;}
+.card h3{font-size:1.1rem; margin:0 0 6px;}
+.card p{font-size:0.9rem; color:var(--plum-soft); margin:0;}
+.card .tag{
+  position:absolute; top:-10px; right:-10px;
+  background:var(--butter);
+  border-radius:50%;
+  width:26px; height:26px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.85rem;
+  box-shadow:0 3px 6px rgba(0,0,0,0.15);
+}
+.card .tag.hidden{display:none;}
+
+.finale-wrap{
+  text-align:center;
+  margin-top:56px;
+  min-height:60px;
+}
+#finaleBtn{
+  border:none;
+  background:linear-gradient(145deg, var(--lavender), var(--blush));
+  color:var(--plum);
+  font-family:'Fredoka', sans-serif;
+  font-size:1.05rem;
+  padding:16px 36px;
+  border-radius:999px;
+  cursor:pointer;
+  box-shadow:var(--shadow);
+  opacity:0;
+  transform:scale(0.9);
+  pointer-events:none;
+  transition:opacity 0.5s ease, transform 0.5s ease;
+}
+#finaleBtn.show{opacity:1; transform:scale(1); pointer-events:auto;}
+
+/* ==================== MODAL ==================== */
+.overlay{
+  position:fixed; inset:0;
+  background:rgba(74,55,82,0.35);
+  backdrop-filter:blur(3px);
+  display:flex; align-items:center; justify-content:center;
+  padding:20px;
+  z-index:50;
+  opacity:0; pointer-events:none;
+  transition:opacity 0.3s ease;
+}
+.overlay.show{opacity:1; pointer-events:auto;}
+
+.modal{
+  background:var(--white);
+  border-radius:22px;
+  max-width:520px;
+  width:100%;
+  max-height:85vh;
+  overflow-y:auto;
+  padding:32px 28px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.25);
+  transform:translateY(16px) scale(0.97);
+  transition:transform 0.3s ease;
+  position:relative;
+}
+.overlay.show .modal{transform:translateY(0) scale(1);}
+
+.modal-close{
+  position:absolute; top:14px; right:16px;
+  background:var(--cream);
+  border:none;
+  width:34px; height:34px;
+  border-radius:50%;
+  font-size:1.1rem;
+  cursor:pointer;
+  color:var(--plum-soft);
+}
+.modal-close:hover{background:var(--blush);}
+
+.modal h2{margin-top:0; font-size:1.4rem; display:flex; align-items:center; gap:10px;}
+
+/* timeline */
+.timeline{list-style:none; margin:20px 0 0; padding:0; border-left:3px solid var(--blush); margin-left:8px;}
+.timeline li{position:relative; padding:0 0 22px 24px;}
+.timeline li::before{
+  content:"";
+  position:absolute; left:-9px; top:2px;
+  width:14px; height:14px; border-radius:50%;
+  background:var(--blush-deep); border:3px solid var(--white); box-shadow:0 0 0 2px var(--blush-deep);
+}
+.timeline .when{font-family:'Fredoka'; font-size:0.85rem; color:var(--blush-deep); display:block; margin-bottom:2px;}
+
+/* reasons */
+.reasons{list-style:none; margin:18px 0 0; padding:0; display:grid; gap:12px;}
+.reasons li{
+  background:var(--cream);
+  border-radius:14px;
+  padding:14px 16px;
+  display:flex; gap:10px; align-items:flex-start;
+  font-size:0.95rem;
+}
+.reasons li .num{font-family:'Fredoka'; color:var(--blush-deep); font-weight:600;}
+
+/* quiz */
+.quiz-q{margin-bottom:22px;}
+.quiz-q p.qtext{font-weight:600; margin-bottom:10px;}
+.quiz-opts{display:grid; gap:8px;}
+.quiz-opt{
+  text-align:left;
+  border:2px solid var(--cream);
+  background:var(--cream);
+  border-radius:12px;
+  padding:10px 14px;
+  cursor:pointer;
+  font-size:0.92rem;
+  color:var(--plum);
+  transition:border-color 0.2s ease, background 0.2s ease;
+}
+.quiz-opt:hover{border-color:var(--lavender);}
+.quiz-opt.correct{background:var(--mint); border-color:#4FCBA0;}
+.quiz-opt.wrong{background:#FFD9D9; border-color:#F29A9A;}
+.quiz-feedback{font-size:0.85rem; margin-top:6px; min-height:18px; color:var(--plum-soft);}
+
+.bond-text{
+  margin-top:16px;
+  font-size:1.05rem;
+  line-height:1.7;
+}
+.bond-text .script{font-size:1.3rem; color:var(--blush-deep);}
+
+/* ==================== FINALE ==================== */
+#finaleOverlay .modal{max-width:560px; text-align:center;}
+.balloons{display:flex; justify-content:center; gap:10px; margin-bottom:6px; font-size:2rem;}
+.balloons span{display:inline-block; animation:bob 2.4s ease-in-out infinite;}
+.balloons span:nth-child(2){animation-delay:0.3s;}
+.balloons span:nth-child(3){animation-delay:0.6s;}
+@keyframes bob{0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);}}
+@media (prefers-reduced-motion: reduce){ .balloons span{animation:none;} }
+
+.confetti-piece{
+  position:fixed;
+  top:-30px;
+  font-size:1.4rem;
+  pointer-events:none;
+  z-index:80;
+  animation-name:fall;
+  animation-timing-function:ease-in;
+  animation-fill-mode:forwards;
+}
+@keyframes fall{
+  to{ transform:translateY(105vh) rotate(360deg); opacity:0.2; }
+}
+
+/* -------------------- burst effect (hearts glowing + chocolate) -------------------- */
+.burst-piece{
+  position:fixed;
+  font-size:1.6rem;
+  pointer-events:none;
+  z-index:90;
+  animation-name:burstOut;
+  animation-timing-function:cubic-bezier(.2,.75,.3,1);
+  animation-fill-mode:forwards;
+  filter:drop-shadow(0 0 10px rgba(255,120,170,0.9)) drop-shadow(0 0 18px rgba(255,180,210,0.6));
+}
+@keyframes burstOut{
+  0%{ transform:translate(-50%,-50%) scale(0.4); opacity:1; }
+  60%{ opacity:1; }
+  100%{ transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.15); opacity:0; }
+}
+
+@media (max-width:480px){
+  .modal{padding:26px 18px;}
+  .env-note{font-size:1rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="floaty" style="top:8%; left:6%;">💌</div>
+<div class="floaty" style="top:20%; right:8%; animation-delay:2s;">✨</div>
+<div class="floaty" style="bottom:12%; left:10%; animation-delay:4s;">🎀</div>
+<div class="floaty" style="bottom:20%; right:12%; animation-delay:1s;">💐</div>
+
+<!-- ==================== LANDING ==================== -->
+<section id="landing">
+  <div class="envelope-wrap">
+    <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open the envelope">
+      <div class="env-body"></div>
+      <div class="env-note">a little something for you...</div>
+      <div class="env-flap"></div>
+      <button class="seal" id="sealBtn" aria-label="Open envelope">♥</button>
+    </div>
+  </div>
+  <p class="landing-hint">tap the envelope</p>
+  <button id="enterBtn">Open my surprises →</button>
+</section>
+
+<!-- ==================== MAIN SCENE ==================== -->
+<section id="mainScene">
+  <div class="main-header">
+    <h1 id="mainTitle">Happy 1 Year of Friendship!</h1>
+    <p id="mainSub">Click through everything below — I made this just for you 💕</p>
+    <div class="progress" id="progress"></div>
+  </div>
+
+  <div class="card-grid" id="cardGrid"></div>
+
+  <div class="finale-wrap">
+    <button id="finaleBtn">You found them all — one more thing 🎁</button>
+  </div>
+</section>
+
+<!-- ==================== MODAL ==================== -->
+<div class="overlay" id="overlay">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<!-- ==================== FINALE MODAL ==================== -->
+<div class="overlay" id="finaleOverlay">
+  <div class="modal">
+    <button class="modal-close" id="finaleClose" aria-label="Close">✕</button>
+    <div class="balloons"><span>🎈</span><span>🎈</span><span>🎈</span></div>
+    <h2 id="finaleTitle" style="justify-content:center;">Happy Anniversary, Friend</h2>
+    <div class="bond-text" id="finaleText"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   CONTENT — edit everything in this block. That's it, that's
+   the whole customization surface. Nothing below this needs
+   to change for basic personalization.
+   ============================================================ */
+
+const CONTENT = {
+  friendName: "Thangachii",              // EDIT: her name / nickname
+  mainTitle: "Happy 1 Year of Our Bond, __FRIEND__!",   // EDIT — leave __FRIEND__ where the name should go
+  mainSub: "Click through everything below — I made this just for you 💕", // EDIT
+
+  memories: [   // EDIT: add/remove as many as you like
+    { when: "The day we met", text: "Write about how you two first met — where you were, what you said, how it felt." },
+    { when: "A random Tuesday", text: "That one ordinary day that turned into an inside joke or a core memory." },
+    { when: "The hard time", text: "A moment they showed up for you — be specific about what they did." },
+    { when: "Recently", text: "Something small and recent that reminded you why this bond matters." }
+  ],
+
+  reasons: [   // EDIT: reasons you appreciate her
+    "You always know exactly what to say when I need it most.",
+    "You make ordinary days feel like an adventure.",
+    "You never judge me, even when I probably deserve it.",
+    "You remember the little things I mention in passing.",
+    "You've been consistent — through every version of me this year."
+  ],
+
+  quiz: [   // EDIT: questions about your bond. `answers[correct]` is the right index (0-based)
+    { q: "Where did we first meet?", answers: ["School", "Work", "Through a mutual friend", "Online"], correct: 2 },
+    { q: "What's our go-to comfort food?", answers: ["Pizza", "Ice cream", "Noodles", "Fries"], correct: 1 },
+    { q: "What do we always argue about (playfully)?", answers: ["Music taste", "Who texts first", "Movie choices", "Who's funnier"], correct: 3 }
+  ],
+
+  bondMessage: `In one year, you've become one of the most important people in my life. Thank you for every message, every laugh, every time you showed up. Here's to many, many more years of us. I love you, ${"__FRIEND__"}.`,  // EDIT: your closing message. Leave __FRIEND__ where you want her name inserted.
+
+  insideJokes: [   // EDIT: things only the two of you would get
+    "That one time we couldn't stop laughing about ___ — nobody else understood why it was so funny.",
+    "The nickname we made up that only makes sense to us.",
+    "That phrase we now say every single time ___ happens."
+  ],
+
+  promises: [   // EDIT: what you promise her for the year ahead
+    "I promise to always make time for you, no matter how busy life gets.",
+    "I promise to tell you the truth, even when it's hard.",
+    "I promise to celebrate every win of yours like it's my own.",
+    "I promise to show up — on your good days and your hard ones."
+  ],
+
+  bondCompare: [   // EDIT: playful/emotional comparisons — { label, text }
+    { label: "If our bond was a season", text: "it'd be spring — warm, easy, and always a little unexpected." },
+    { label: "If our bond was a song", text: "it'd be the one we play too loud in the car and never skip." },
+    { label: "If our bond was a place", text: "it'd be somewhere small and familiar that always feels like home." }
+  ],
+
+  futureLetter: `Hey, it's you — one year from now. I just want you to know that Thangachii is still one of the best things that happened to me. Whatever's changed, that hasn't. Take care of her the way she takes care of everyone else.`  // EDIT: a note from "future you" to your friend
+};
+
+/* ============================================================
+   Below this line is the machinery — you shouldn't need to
+   touch it, but nothing is hidden if you want to.
+   ============================================================ */
+
+document.getElementById('mainTitle').textContent = CONTENT.mainTitle.replace('__FRIEND__', CONTENT.friendName);
+document.getElementById('mainSub').textContent = CONTENT.mainSub;
+
+const CARDS = [
+  { id:'memories', emoji:'📖', title:'Our Memory Timeline', desc:'A little walk down memory lane' },
+  { id:'reasons', emoji:'💗', title:'Reasons I Appreciate You', desc:'Just a few of many' },
+  { id:'quiz', emoji:'🎲', title:'How Well Do You Know Us?', desc:'A quick little quiz' },
+  { id:'bond', emoji:'🕊️', title:'Our Special Bond', desc:'Something from the heart' }
+];
+
+const grid = document.getElementById('cardGrid');
+const progress = document.getElementById('progress');
+const visited = new Set();
+
+CARDS.forEach(c => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.tabIndex = 0;
+  card.setAttribute('role','button');
+  card.dataset.id = c.id;
+  card.innerHTML = `<span class="tag hidden" data-check="${c.id}">✓</span><span class="emoji">${c.emoji}</span><h3>${c.title}</h3><p>${c.desc}</p>`;
+  card.addEventListener('click', () => openModal(c.id));
+  card.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openModal(c.id); } });
+  grid.appendChild(card);
+
+  const dot = document.createElement('span');
+  dot.className = 'dot';
+  dot.dataset.dot = c.id;
+  progress.appendChild(dot);
+});
+
+function markVisited(id){
+  if(visited.has(id)) return;
+  visited.add(id);
+  const tag = document.querySelector(`.tag[data-check="${id}"]`);
+  if(tag) tag.classList.remove('hidden');
+  const dot = document.querySelector(`.dot[data-dot="${id}"]`);
+  if(dot) dot.classList.add('done');
+  if(visited.size === CARDS.length){
+    document.getElementById('finaleBtn').classList.add('show');
+  }
+}
+
+function renderModal(id){
+  if(id === 'memories'){
+    const items = CONTENT.memories.map(m => `<li><span class="when">${m.when}</span>${m.text}</li>`).join('');
+    return `<h2>📖 Our Memory Timeline</h2><ul class="timeline">${items}</ul>`;
+  }
+  if(id === 'reasons'){
+    const items = CONTENT.reasons.map((r,i) => `<li><span class="num">${i+1}.</span><span>${r}</span></li>`).join('');
+    return `<h2>💗 Reasons I Appreciate You</h2><ul class="reasons">${items}</ul>`;
+  }
+  if(id === 'quiz'){
+    const qs = CONTENT.quiz.map((q,qi) => {
+      const opts = q.answers.map((a,ai) => `<button class="quiz-opt" data-qi="${qi}" data-ai="${ai}">${a}</button>`).join('');
+      return `<div class="quiz-q"><p class="qtext">${qi+1}. ${q.q}</p><div class="quiz-opts">${opts}</div><div class="quiz-feedback" data-feedback="${qi}"></div></div>`;
+    }).join('');
+    return `<h2>🎲 How Well Do You Know Us?</h2>${qs}`;
+  }
+  if(id === 'bond'){
+    const msg = CONTENT.bondMessage.replace('__FRIEND__', CONTENT.friendName);
+    return `<h2>🕊️ Our Special Bond</h2><div class="bond-text"><span class="script">Dear ${CONTENT.friendName},</span><br><br>${msg}</div>`;
+  }
+  return '';
+}
+
+const overlay = document.getElementById('overlay');
+const modalContent = document.getElementById('modalContent');
+
+function openModal(id){
+  modalContent.innerHTML = `<button class="modal-close" id="closeBtn" aria-label="Close">✕</button>` + renderModal(id);
+  overlay.classList.add('show');
+  document.getElementById('closeBtn').addEventListener('click', closeModal);
+  markVisited(id);
+
+  if(id === 'quiz'){
+    modalContent.querySelectorAll('.quiz-opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const qi = btn.dataset.qi, ai = Number(btn.dataset.ai);
+        const q = CONTENT.quiz[qi];
+        const opts = modalContent.querySelectorAll(`.quiz-opt[data-qi="${qi}"]`);
+        const feedback = modalContent.querySelector(`[data-feedback="${qi}"]`);
+        if(opts[0].disabled) return;
+        opts.forEach(o => o.disabled = true);
+        if(ai === q.correct){
+          btn.classList.add('correct');
+          feedback.textContent = "That's right! 🎉";
+          burstConfetti(6);
+        } else {
+          btn.classList.add('wrong');
+          opts[q.correct].classList.add('correct');
+          feedback.textContent = "Close! Here's the right one ✨";
+        }
+      });
+    });
+  }
+}
+
+function closeModal(){ overlay.classList.remove('show'); }
+overlay.addEventListener('click', e => { if(e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape'){ closeModal(); closeFinale(); } });
+
+/* -------------------- envelope opening -------------------- */
+const envelope = document.getElementById('envelope');
+const sealBtn = document.getElementById('sealBtn');
+const enterBtn = document.getElementById('enterBtn');
+
+function openEnvelope(){
+  if(envelope.classList.contains('open')) return;
+  envelope.classList.add('open');
+  setTimeout(() => enterBtn.classList.add('show'), 500);
+}
+sealBtn.addEventListener('click', openEnvelope);
+envelope.addEventListener('click', openEnvelope);
+envelope.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openEnvelope(); } });
+
+enterBtn.addEventListener('click', () => {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('mainScene').classList.add('show');
+  burstConfetti(14);
+});
+
+/* -------------------- finale -------------------- */
+const finaleOverlay = document.getElementById('finaleOverlay');
+document.getElementById('finaleBtn').addEventListener('click', () => {
+  document.getElementById('finaleTitle').textContent = `Happy Anniversary, ${CONTENT.friendName}`;
+  document.getElementById('finaleText').textContent = CONTENT.bondMessage.replace('__FRIEND__', CONTENT.friendName);
+  finaleOverlay.classList.add('show');
+  burstConfetti(24);
+});
+function closeFinale(){ finaleOverlay.classList.remove('show'); }
+document.getElementById('finaleClose').addEventListener('click', closeFinale);
+finaleOverlay.addEventListener('click', e => { if(e.target === finaleOverlay) closeFinale(); });
+
+/* -------------------- confetti -------------------- */
+const CONFETTI_EMOJI = ['🎉','✨','💗','🎀','⭐','💐'];
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function burstConfetti(count){
+  if(reduceMotion) return;
+  for(let i=0;i<count;i++){
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.textContent = CONFETTI_EMOJI[Math.floor(Math.random()*CONFETTI_EMOJI.length)];
+    piece.style.left = Math.random()*100 + 'vw';
+    const duration = 2.2 + Math.random()*1.6;
+    piece.style.animationDuration = duration + 's';
+    piece.style.animationDelay = (Math.random()*0.4) + 's';
+    document.body.appendChild(piece);
+    setTimeout(() => piece.remove(), (duration+0.5)*1000);
+  }
+}
+</script>
+</body>
+</html>
